@@ -165,4 +165,4 @@ The output (if any) is above this job summary.
 ```
 ### Ganglia plot
 
-![ganglia][ganglia_20160301.jpg]
+![ganglia](ganglia_20160301.jpg)
