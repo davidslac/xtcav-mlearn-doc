@@ -7,17 +7,19 @@ a 4 layer nnet that gets 78% accurracy on the
 "xtcav mlearn data". Below are notes to run the 
 example on the LCLS psana machines.
 
+The script is in this package: https://github.com/davidslac/xtcav-mlearn-doc/blob/master/tensorflow_simple.py
+
 I have some other code that is writing the "xtcav mlearn data",
-see [link http://www.slac.stanford.edu/~davidsch/ImgMLearnDocDev/]
+see http://www.slac.stanford.edu/~davidsch/ImgMLearnDocDev/
 
 It is written as a collection of hdf5 files, each has 500 images 
 and peak labels.
 
-The h5-mlearn-minibatch package has code to scan the
+The h5-mlearn-minibatch package,  has code to scan the
 h5 files, identify samples, optionally pre-process
 images, and deliver minibatches and a validation set.
 
-To run the script, first get the h5-mlearn-minibatch package:
+To run the script, first get the h5-mlearn-minibatch package (https://github.com/davidslac/h5-mlearn-minibatch):
 
 ```
 git clone https://github.com/davidslac/h5-mlearn-minibatch.git
@@ -51,6 +53,7 @@ For instance:
 ```
 bsub -q psanaq -x -o script-%J.output python tensorflow_simple.py
 ```
+
 
 ## Here are results from Mar 1 2016
 
