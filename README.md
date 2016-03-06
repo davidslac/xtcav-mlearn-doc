@@ -1,6 +1,56 @@
 # xtcav-mlearn-doc
 
-this is xtcav-mlearn-doc
+## Latest
+
+A simple example to use tensor flow to build and train
+a 4 layer nnet that gets 78% accurracy on the 
+"xtcav mlearn data". Below are notes to run the 
+example on the LCLS psana machines.
+
+I have some other code that is writing the "xtcav mlearn data",
+see [link http://www.slac.stanford.edu/~davidsch/ImgMLearnDocDev/]
+
+It is written as a collection of hdf5 files, each has 500 images 
+and peak labels.
+
+The h5-mlearn-minibatch package has code to scan the
+h5 files, identify samples, optionally pre-process
+images, and deliver minibatches and a validation set.
+
+To run the script, first get the h5-mlearn-minibatch package:
+
+```
+git clone https://github.com/davidslac/h5-mlearn-minibatch.git
+cd h5-mlearn-minibatch
+```
+
+Now install the package. From a virtualenv, It depends on h5py, but I wouldn't let
+it install h5py. If you are using your virtualenv with psana, then h5py
+is available but pip doesn't seem to dedect it, or I have a bug in setup.py. 
+So, within a virtualenv, do
+
+```
+python setup.py develop --no-deps 
+```
+
+or if you are not in a virtualenv, I'd install it in your python user's site:
+
+```
+python setup.py develop --no-deps --user
+```
+
+The devlop mode links in what you downloaded, so you can modify h5-mlearn-minibatch
+and run the changes.
+
+The script takes 3000 steps that average 15 seconds a step. 
+It takes 12 hours to run and seems to use 12GB of 
+memory on average. Since it uses so much memory, 
+submit a batch job that uses exclusive use of the node.
+
+For instance:
+```
+bsub -q psanaq -x -o script-%J.output python tensorflow_simple.py
+```
 
 ## Here are results from Mar 1 2016
 
