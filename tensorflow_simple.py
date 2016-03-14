@@ -3,9 +3,9 @@ from __future__ import division
 from __future__ import print_function
 
 import os
+import sys
 from glob import glob
 import time
-
 import numpy as np
 from h5minibatch.H5MiniBatchReader import H5MiniBatchReader
 import tensorflow as tf
@@ -78,6 +78,7 @@ def run():
                                    number_of_batches=None,
                                    class_labels_max_imbalance_ratio=1.0,
                                    max_mb_to_preload_all=None,
+                                   add_channel_to_2D='row_column_channel',
                                    random_seed=None,
                                    verbose=True)    
     with tf.Graph().as_default():
@@ -104,6 +105,7 @@ def with_graph(datareader):
                             labels_tensor:validation_labels}    
     
     print("Starting training.")
+    sys.stdout.flush()
     for step_number in range(3000):
         t0 = time.time()
         train_features, train_labels = datareader.get_next_minibatch()
@@ -111,8 +113,11 @@ def with_graph(datareader):
                            labels_tensor:train_labels}
         sess.run(train_op, feed_dict=train_feed_dict)        
         print("step %3d took %.2f sec." % (step_number, time.time()-t0))
+        sys.stdout.flush()
     
     print("Starting evaluation.")
+    sys.stdout.flush()
+
     t0 = time.time()
     logits_validation = sess.run(logits, feed_dict=validation_feed_dict)
 

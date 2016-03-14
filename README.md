@@ -1,25 +1,97 @@
 # xtcav-mlearn-doc
 
-## Latest
+The package has notes/documentation about the xtcav machine learning
+project - joint work with Mihir Mongia, Ryan Coffee, and Chris O' Grady.
 
-A simple example to use tensor flow to build and train
-a 4 layer nnet that gets 78% accurracy on the 
-"xtcav mlearn data". Below are notes to run the 
-example on the LCLS psana machines.
+## Latest 3/14/2016
+
+### Hdf5 data
+
+I'm using some psana based code to read the xtcav images, acq traces, and 
+beam line data and then produce labels for machine learning. Details about 
+all this is here:
+
+http://www.slac.stanford.edu/~davidsch/ImgMLearnDocDev/
+
+The output of this, is a collection of h5 files that brake down like this
+
+```
+total of 66153 samples in 133 files, 37978 for this dataset (57%)
+  label=  0 has 3744 samples (10%)
+  label=  1 has 2355 samples (6%)
+  label=  2 has 16390 samples (43%)
+  label=  3 has 15489 samples (41%)
+... scan took 1.56 sec
+After balancing samples per ratio=1.00, there are 9420 samples available for train/validation
+not using 12 samples
+Read 64 test samples in 2.48 sec
+```
+
+It is important to point out that these labels are rough, getting high accuracy on the
+machine learning problem with these labels will be very exciting, but not neccessarily 
+useful to the science until we refine the processing of the acqiris traces.
+
+To work with features and labels from a collection of hdf5, I wrote a package 
+h5-mlearn-minibatch, details below, that processes a list of h5 files and
+gives you minibatches from them. So for each training step, 32 randomly chosen
+images are read. Each image is 726 x 568 in dimension, stored as int16, so this is
+825k per image, so each minibatch is reading 26MB. I think this averages about a second on 
+our filesystem, and with the present implementation it is blocking - unlike 
+tensorflow where file I/O happens in a background thread.
+
+A listing of one of these h5 files looks like
+
+```
+$ h5ls -r amo86815_mlearn-r070-c0000.h5 
+/                        Group
+/acq.peaksLabel          Dataset {500}
+/acq.t0.ampl             Dataset {500}
+/acq.t0.pos              Dataset {500}
+/acq.t1.ampl             Dataset {500}
+/acq.t1.pos              Dataset {500}
+/acq.t2.ampl             Dataset {500}
+/acq.t2.pos              Dataset {500}
+/acq.waveforms           Dataset {500, 16, 250}
+/bld.L3energy            Dataset {500}
+/evt.fiducials           Dataset {500}
+/evt.nanoseconds         Dataset {500}
+/evt.seconds             Dataset {500}
+/lasing                  Dataset {500}
+/run                     Dataset {500}
+/run.index               Dataset {500}
+/xtcavimg                Dataset {500, 726, 568}
+```
+
+The important datsets are
+
+```
+/acq.peaksLabel          Dataset {500}
+/bld.L3energy            Dataset {500}
+/xtcavimg                Dataset {500, 726, 568}
+```
+
+write now we are just trying to learn the acq.peaksLabel value (0,1,2 or 3) from xtcavimg, however it is
+reasonable to also include bld.L3energy in the model, it should definitely have an impact.
+
+The other datasets identify the shot the image was in, a region of interest in the acqiris waveforms, (the acq.waveforms dataset), 
+and processing of this region to identify peaks and positions that went into forming the peaksLabel.
+
+One reason I want to record peak positions and amplitudes, is because we have talked a lot about solving the regression problem
+of predicting not just wether or not certain peaks are present, but also their relative locations and amplitudes - so keeping that
+data in the h5 files will make it easy to switch to the regression problem.
+
+### Training using Tensorflow, Theano
+
+This package includes a simple script using tensor flow to build and train a 4 layer nnet that gets 78% accurracy on the data.
+Below are notes to run the example on the LCLS psana machines.
 
 The script is in this package: https://github.com/davidslac/xtcav-mlearn-doc/blob/master/tensorflow_simple.py
 
-I have some other code that is writing the "xtcav mlearn data",
-see http://www.slac.stanford.edu/~davidsch/ImgMLearnDocDev/
-
-It is written as a collection of hdf5 files, each has 500 images 
-and peak labels.
-
-The h5-mlearn-minibatch package,  has code to scan the
-h5 files, identify samples, optionally pre-process
-images, and deliver minibatches and a validation set.
+There is also a script, keras_simple.py, that attempts to build the same model in theano using keras, but there may be bugs as I
+haven't got it train successfully yet.
 
 To run the script, first get the h5-mlearn-minibatch package (https://github.com/davidslac/h5-mlearn-minibatch):
+
 
 ```
 git clone https://github.com/davidslac/h5-mlearn-minibatch.git
