@@ -74,7 +74,7 @@ The important datsets are
 /xtcavimg                Dataset {500, 726, 568}
 ```
 
-write now we are just trying to learn the acq.peaksLabel value (0,1,2 or 3) from xtcavimg, however it is
+right now we are just trying to learn the acq.peaksLabel value (0,1,2 or 3) from xtcavimg, however it is
 reasonable to also include bld.L3energy in the model, it should definitely have an impact.
 
 The other datasets identify the shot the image was in, a region of interest in the acqiris waveforms, (the acq.waveforms dataset), 
