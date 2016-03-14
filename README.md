@@ -91,10 +91,14 @@ Below are notes to run the example on the LCLS psana machines.
 
 The script is in this package: https://github.com/davidslac/xtcav-mlearn-doc/blob/master/tensorflow_simple.py
 
-There is also a script, keras_simple.py, that attempts to build the same model in theano using keras, but there may be bugs as I
-haven't got it train successfully yet.
+There is also a script
 
-To run the script, first get the h5-mlearn-minibatch package (https://github.com/davidslac/h5-mlearn-minibatch):
+https://github.com/davidslac/xtcav-mlearn-doc/blob/master/keras_simple.py
+
+That attempts to build the same model in theano using keras, but there may be bugs as I haven't got it train successfully yet
+(I ran it once using default initialization of variables, and it didn't train).
+
+To run the scripts, first get the h5-mlearn-minibatch package (https://github.com/davidslac/h5-mlearn-minibatch):
 
 
 ```
