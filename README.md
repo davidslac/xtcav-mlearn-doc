@@ -27,6 +27,10 @@ not using 12 samples
 Read 64 test samples in 2.48 sec
 ```
 
+Notice that label 1 and label 0 are very small. I want the option to work with 
+balanced datasets, so presently, I am restricting my training to work with 9420 samples
+so that I get 25% of each label in the dataset used for training and validation.
+
 It is important to point out that these labels are rough, getting high accuracy on the
 machine learning problem with these labels will be very exciting, but not neccessarily 
 useful to the science until we refine the processing of the acqiris traces.
