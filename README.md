@@ -3,7 +3,30 @@
 The package has notes/documentation about the xtcav machine learning
 project - joint work with Mihir Mongia, Ryan Coffee, and Chris O' Grady.
 
-## Latest 3/14/2016
+##  3/15/2016 - Evaluating keras/theano vs tensorflow
+
+The keras_simple.py script successfully ran to completion. The first
+time I ran it I used the default parameter initialization and after 3000
+steps the validation accuraccy was 25 or 23%. I implemented the same
+truncated normal random initialization that tensorflow uses (truncate 
+within two stddev of given parameter, 0.03 in my case) and it trained.
+
+It also ran faster! Here is a comparison of the resource usage summary from
+the lsf files:
+
+| framework    | Run time   | Max Mem | Avg Mem | CPU time     | Max Threads | Accuracy |
+| ------------ |-----------:| -------:| -------:| ------------:| -----------:| --------:|
+| keras/theano | 10hr 10min | 13.3GB  |  8.4GB  |  10hr 20min  |  10         | 79.69%   |
+| tensorflow   | 16hr 20min | 15.6GB  |  7.9GB  | 108hr 15min  |  40         | 82.81%   |
+
+I like how theano lets you tune performance, it has some scripts in their misc
+directory to test how setting flags like MKL_NUM_THREADS and OMP_NUM_THREADS 
+affects big matrix multiplication - although I can tune that script, when I played with 
+those values when running keras_simple.py, I didn't see any difference, which surprises me,
+maybe doing something wrong there.
+
+
+##  3/14/2016 - Working with Hdf5 data files, simple scripts
 
 ### Hdf5 data
 
