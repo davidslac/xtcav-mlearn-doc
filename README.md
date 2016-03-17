@@ -31,6 +31,14 @@ went down to 0.55 seconds! A 18 times speed up from the 10 seconds with no GPU, 
 non CuDNN GPU code! So with my current datasets of about 10,000 samples, we should be able to train to 
 78% in an hour!
 
+One thing I like about theano is that we can also try different algorithms that CuDNN proviedes.
+If you look at this page
+
+http://deeplearning.net/software/theano/library/sandbox/cuda/dnn.html
+
+you'll see that there are several options for the algorithm used for the convolution - some use 
+more memory at the promise of being faster. 
+
 #  3/15/2016 - Evaluating keras/theano vs tensorflow
 
 The keras_simple.py script successfully ran to completion. The first
