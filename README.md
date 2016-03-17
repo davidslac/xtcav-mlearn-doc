@@ -3,7 +3,35 @@
 The package has notes/documentation about the xtcav machine learning
 project - joint work with Mihir Mongia, Ryan Coffee, and Chris O' Grady.
 
-##  3/15/2016 - Evaluating keras/theano vs tensorflow
+## 3/16/2016
+GPUs!
+
+We have two machines with GPUs. The first has two Tesla M2050 GPU cards. They are each 3GB cards.
+The second machine has one Tesla K40c with 12GB. 
+
+It is easiest to test the theano code, I just set environment variables, for tensorflow I need to install
+the GPU compiled version of it. 
+
+To test speed, I preloaded some data so there is no file I/O with each step. 
+On these machines, a step without any GPU is 10 seconds. 
+With a Tesla M2050, a step is 3 seconds.
+With the Tesla K40c a step is 2.4 seconds.
+
+Now one really nice thing about theano, when you tell it to use a GPU, it tells you if it found it, and it
+was also printing a message the the CuDNN was not found, like
+
+  Using gpu device 0: Tesla K40c (CNMeM is disabled, CuDNN not available)
+
+So I looked that up, it is CUDA's optimized library for Deep Nueral Networks. 
+I got it, installed it, told theano where it is and to use it (note, this
+is theano from the master branch that keras makes you get, I don't think theano 7.0 uses CuDNN yet?)
+
+Anyways, the Tesla M2050 card is too old, CuDNN won't support it, but on the Tesla K40c, the step time
+went down to 0.55 seconds! A 18 times speed up from the 10 seconds with no GPU, and 4.3 speedup from the
+non CuDNN GPU code! So with my current datasets of about 10,000 samples, we should be able to train to 
+78% in an hour!
+
+#  3/15/2016 - Evaluating keras/theano vs tensorflow
 
 The keras_simple.py script successfully ran to completion. The first
 time I ran it I used the default parameter initialization and after 3000
