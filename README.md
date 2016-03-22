@@ -19,6 +19,7 @@ Here are some details of the work
 
 * I've increased the imbalance ratio in the data up to 3.2.
 
+```
     After balancing per ratio 3.20, there are 21171 examples
        label=  0       3744 examples  ( 17.7% of dataset)
        label=  1       2355 examples  ( 11.1% of dataset)
@@ -29,7 +30,7 @@ Here are some details of the work
     Read 400 test samples in 7.97 sec
     starting to preload 32618.95MB of data. preprocess steps=['log', 'mean'] ...
     preloading data took 825.57 sec.
-
+```
 
 *  When running orig, with batch norm on all 4 layers, I saw GPU memory go to 3.5GB
    But same with batch norm, and still about 1 sec
