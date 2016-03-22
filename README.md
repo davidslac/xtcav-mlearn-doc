@@ -8,7 +8,8 @@ project - joint work with Mihir Mongia, Ryan Coffee, and Chris O' Grady.
 With the cuda deep neural network library and the 12 GB GPU card, I've 
 been able to try some big models. The most exciting was 7 layers! 4 convnet layers
 and 3 dense layers. It trained to 98% on the training data, but only about 80% on 
-the validation set.
+the validation set. It took 3.4 seconds a step:
+https://github.com/davidslac/xtcav-mlearn-doc/blob/master/keras_driver_7layer_noreg.log
 
 Next I tried some l1 and then l2 regularization, however I haven't got past 80% on 
 the validation set.
