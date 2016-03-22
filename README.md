@@ -44,17 +44,45 @@ Here are some details of the work
 *  With the 7 layer, when I make the first layer 32,16,16 (instead of 16,12,12) and the
    second layer (24,12,12) instead of (16,12,12) I was requresting too much memory from the GPU.
 
-* things I've tried - l1 regularization, not regularizing last layer, 
-  lower learning rate, higher learning rate, less momentum, momentum schedule 
-  my momentum seems high, but without batch normalization, I think I needed it around 0.94.
+* things I've tried
 
-* things I haven't tried: different optimizers (Adam, etc), contrast normalization, fiddling
-  with batch normalization parameters, activation noise for regularization, dropout
+  * L1 regularization
+
+  * not regularizing last layer
+  
+  * lower learning rate
+ 
+  * higher learning rate
+
+  * less momentum
+
+  * momentum schedule (I almost always have a learning rate schedule with a minimum)
+    my momentum seems high, but without batch normalization, I think I needed it around 0.94.
+
+  * saving model weights, and re-starting with higher learning rate
+
+  * more/less max pooling
+
+  * more/less kernel parameters
+  
+* things I haven't tried
+
+  * different optimizers (Adam, etc)
+
+  * contrast normalization
+
+  * fiddling with batch normalization parameters
+
+  * activation noise for regularization
+
+  * dropout
 
 * one thought - I'm not sure how much time we want to spend with accuracy for this labeling, 
   
 * another thought - if there was a region of 'off by one' in one of the runs, it will mess up
   labeling/learning
+
+
 
 ## 3/16/2016
 GPUs!
