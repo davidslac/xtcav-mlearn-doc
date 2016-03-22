@@ -11,25 +11,37 @@ and 3 dense layers. It trained to 98% on the training data, but only about 80% o
 the validation set. It took 3.4 seconds a step:
 https://github.com/davidslac/xtcav-mlearn-doc/blob/master/keras_driver_7layer_noreg.log
 
-Next I tried some l1 and then l2 regularization, however I haven't got past 80% on 
-the validation set.
+ Next I tried some l1 and then l2 regularization. Using l2 at 0.01, I 
+got to 85% on the validation set, while staying around 85% on the training
+https://github.com/davidslac/xtcav-mlearn-doc/blob/master/keras_driver_6layer_A.log
 
 Here are some details of the work
 
-I've increased the 'imbalance ratio in the data up to 3.2. Startup looks like this
+* I've increased the imbalance ratio in the data up to 3.2.
+
+    After balancing per ratio 3.20, there are 21171 examples
+       label=  0       3744 examples  ( 17.7% of dataset)
+       label=  1       2355 examples  ( 11.1% of dataset)
+       label=  2       7536 examples  ( 35.6% of dataset)
+       label=  3       7536 examples  ( 35.6% of dataset)
+    classifier that always picks label for largest class performs at: 35.6%
+    not using 35 samples
+    Read 400 test samples in 7.97 sec
+    starting to preload 32618.95MB of data. preprocess steps=['log', 'mean'] ...
+    preloading data took 825.57 sec.
 
 
+*  When running orig, with batch norm on all 4 layers, I saw GPU memory go to 3.5GB
+   But same with batch norm, and still about 1 sec
+   With a bigger model (still 4 layers) I saw mem go from 2.6 to 5 GB, time per step up to 1.7 sec
 
-When running orig, with batch norm on all 4 layers, I saw GPU memory go to 3.5GB
-But same with batch norm, and still about 1 sec
-With a bigger model (still 4 layers) I saw mem go from 2.6 to 5 GB, time per step up to 1.7 sec
+*  with batch normalization, I saw accuracy get to 70% within 120 steps, much faster!
 
-with minibatch, I saw accuracy get to 70% within 120 steps
+*  Before batch normalization, I've tried many different random initializations that didn't
+   work. Just trunc_normal at stddev=0.03.
 
-without match norm, I tried he_normal, glorit_uniform, other lecunn_uniform, nothing trained
-
-With the 7 layer, when I make the first layer 32,16,16 (instead of 16,12,12) and the
-second layer (24,12,12) instead of (16,12,12) I was requresting too much memory from the GPU.
+*  With the 7 layer, when I make the first layer 32,16,16 (instead of 16,12,12) and the
+   second layer (24,12,12) instead of (16,12,12) I was requresting too much memory from the GPU.
 
 
 ## 3/16/2016
