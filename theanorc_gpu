@@ -1,0 +1,34 @@
+[global]
+floatX = float32
+device = gpu
+openmp = True
+openmp_elem_wise = 200000
+
+[dnn]
+enabled = True
+include_path = /reg/neh/home/davidsch/cudnn_v4/lib/cuda/include
+library_path =  /reg/neh/home/davidsch/cudnn_v4/lib/cuda/lib64
+
+[dnn.conv]
+algo_fwd = small
+#(('small', 'none', 'large', 'fft', 'fft_tiling', 'guess_once', 'guess_on_shape_change', 'time_once', 'time_on_shape_change')) 
+#    Doc:  Default implementation to use for CuDNN forward convolution.
+#    Value:  small
+
+algo_bwd_data = none
+#(('none', 'deterministic', 'fft', 'fft_tiling', 'guess_once', 'guess_on_shape_change', 'time_once', 'time_on_shape_change')) 
+#    Doc:  Default implementation to use for CuDNN backward convolution to get the gradients of the convolution with regard to the inputs.
+#    Value:  none
+
+algo_bwd_filter = none
+#(('none', 'deterministic', 'fft', 'small', 'guess_once', 'guess_on_shape_change', 'time_once', 'time_on_shape_change')) 
+#    Doc:  Default implementation to use for CuDNN backward convolution to get the gradients of the convolution with regard to the filters.
+#    Value:  none
+
+precision = as_input
+#(('as_input', 'float16', 'float32', 'float64')) 
+#    Doc:  Default data precision to use for the computation in CuDNN convolutions (defaults to the same dtype as the inputs of the convolutions).
+#    Value:  as_input
+
+[nvcc]
+fastmath = False

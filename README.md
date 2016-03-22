@@ -3,6 +3,34 @@
 The package has notes/documentation about the xtcav machine learning
 project - joint work with Mihir Mongia, Ryan Coffee, and Chris O' Grady.
 
+## 3/21/2016
+
+With the cuda deep neural network library and the 12 GB GPU card, I've 
+been able to try some big models. The most exciting was 7 layers! 4 convnet layers
+and 3 dense layers. It trained to 98% on the training data, but only about 80% on 
+the validation set.
+
+Next I tried some l1 and then l2 regularization, however I haven't got past 80% on 
+the validation set.
+
+Here are some details of the work
+
+I've increased the 'imbalance ratio in the data up to 3.2. Startup looks like this
+
+
+
+When running orig, with batch norm on all 4 layers, I saw GPU memory go to 3.5GB
+But same with batch norm, and still about 1 sec
+With a bigger model (still 4 layers) I saw mem go from 2.6 to 5 GB, time per step up to 1.7 sec
+
+with minibatch, I saw accuracy get to 70% within 120 steps
+
+without match norm, I tried he_normal, glorit_uniform, other lecunn_uniform, nothing trained
+
+With the 7 layer, when I make the first layer 32,16,16 (instead of 16,12,12) and the
+second layer (24,12,12) instead of (16,12,12) I was requresting too much memory from the GPU.
+
+
 ## 3/16/2016
 GPUs!
 
